@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Login</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        body{
+            background:#0f172a;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:Arial;
+        }
+
+        .login-box{
+            background:white;
+            width:450px;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0px 0px 25px rgba(255,255,255,0.2);
+        }
+
+        .title{
+            text-align:center;
+            margin-bottom:30px;
+            font-weight:bold;
+            color:#0f172a;
+        }
+
+        .btn-login{
+            background:#0f172a;
+            color:white;
+        }
+
+        .btn-login:hover{
+            background:#1e293b;
+            color:white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <h1 class="title">
+        🔐 Welcome Back
+    </h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="username"
+            class="form-control mb-3"
+            placeholder="Username"
+            required>
+
+        <input
+            type="password"
+            name="password"
+            class="form-control mb-3"
+            placeholder="Password"
+            required>
+
+        <button class="btn btn-login w-100">
+
+            Login
+
+        </button>
+
+    </form>
+
+    <p class="text-center mt-4">
+
+        New user?
+
+        <a href="/register/">
+            Create account
+        </a>
+
+    </p>
+
+</div>
+
+</body>
+</html>

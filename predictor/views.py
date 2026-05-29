@@ -25,19 +25,20 @@ def predict(request):
 
         idea = request.POST['idea']
 
+
         # Convert text
         vec = vectorizer.transform([idea])
 
-        # Predict
+
+        # Predict using ML model
         result = model.predict(vec)
 
-        # Success score
-        prob = model.predict_proba(vec)[0][1] * 100
 
         # Convert idea to lowercase
         idea_lower = idea.lower()
 
-        # Default scores
+
+        # Default business scores
         demand = 50
         competition = 50
         feasibility = 50
@@ -45,10 +46,12 @@ def predict(request):
         investor = 50
         scalability = 50
 
-               # AI Industry
+
+        # AI Industry
         if any(word in idea_lower for word in [
             "ai", "artificial intelligence", "chatbot"
         ]):
+
             demand += 35
             innovation += 40
             investor += 35
@@ -160,13 +163,28 @@ def predict(request):
             scalability += 25
             investor += 20
 
-        # Limit values
-        demand = max(10, min(demand, 100))
-        competition = max(10, min(competition, 100))
-        feasibility = max(10, min(feasibility, 100))
-        innovation = max(10, min(innovation, 100))
-        investor = max(10, min(investor, 100))
-        scalability = max(10, min(scalability, 100))
+        # Limit score values
+
+        demand = min(max(demand, 10), 100)
+        competition = min(max(competition, 10), 100)
+        feasibility = min(max(feasibility, 10), 100)
+        innovation = min(max(innovation, 10), 100)
+        investor = min(max(investor, 10), 100)
+        scalability = min(max(scalability, 10), 100)
+
+
+        # Final startup success score calculation
+
+        prob = (
+            demand * 0.25 +
+            feasibility * 0.20 +
+            innovation * 0.20 +
+            investor * 0.15 +
+            scalability * 0.15 +
+            (100 - competition) * 0.05
+        )
+
+        prob = round(prob, 1)
 
         # Suggestions list
         suggestions = []

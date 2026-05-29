@@ -58,6 +58,15 @@
     </h1>
 
     <form method="POST">
+        {% if error %}
+
+<div class="alert alert-danger">
+
+    {{ error }}
+
+</div>
+
+{% endif %}
 
         {% csrf_token %}
 

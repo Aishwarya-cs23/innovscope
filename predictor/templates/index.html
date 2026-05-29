@@ -34,13 +34,6 @@
             height:150px;
         }
 
-        .result-box{
-            margin-top:30px;
-            padding:20px;
-            border-radius:10px;
-            background:#f4f4f4;
-        }
-
     </style>
 
 </head>
@@ -74,100 +67,6 @@
         </button>
 
     </form>
-
-    {% if result %}
-
-    <div class="result-box">
-
-        <div class="text-center">
-
-            <h2>{{ result }}</h2>
-
-            <h4 class="mt-3">
-                Success Score: {{ score }}%
-            </h4>
-
-        </div>
-
-        <hr>
-
-        <div class="row text-center">
-
-    <div class="col-md-4 mb-4">
-
-        <h5>📈 Demand</h5>
-
-        <h3>{{ demand }}%</h3>
-
-    </div>
-
-    <div class="col-md-4 mb-4">
-
-        <h5>⚔ Competition</h5>
-
-        <h3>{{ competition }}%</h3>
-
-    </div>
-
-    <div class="col-md-4 mb-4">
-
-        <h5>✅ Feasibility</h5>
-
-        <h3>{{ feasibility }}%</h3>
-
-    </div>
-
-    <div class="col-md-4 mb-4">
-
-        <h5>💡 Innovation</h5>
-
-        <h3>{{ innovation }}%</h3>
-
-    </div>
-
-    <div class="col-md-4 mb-4">
-
-        <h5>💰 Investor Interest</h5>
-
-        <h3>{{ investor }}%</h3>
-
-    </div>
-
-    <div class="col-md-4 mb-4">
-
-        <h5>🚀 Scalability</h5>
-
-        <h3>{{ scalability }}%</h3>
-
-    </div>
-
-</div>
-
-        <div class="mt-4">
-
-            <h4>
-                🤖 AI Suggestions
-            </h4>
-
-            <ul class="list-group mt-3">
-
-                {% for suggestion in suggestions %}
-
-                <li class="list-group-item">
-
-                    {{ suggestion }}
-
-                </li>
-
-                {% endfor %}
-
-            </ul>
-
-        </div>
-
-    </div>
-
-    {% endif %}
 
 </div>
 

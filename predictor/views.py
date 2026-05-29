@@ -45,9 +45,10 @@ def predict(request):
         investor = 50
         scalability = 50
 
-        # AI Industry
-        if "ai" in idea_lower:
-
+               # AI Industry
+        if any(word in idea_lower for word in [
+            "ai", "artificial intelligence", "chatbot"
+        ]):
             demand += 35
             innovation += 40
             investor += 35
@@ -56,49 +57,108 @@ def predict(request):
             feasibility += 20
 
         # Healthcare
-        if "health" in idea_lower or "medical" in idea_lower:
-
+        if any(word in idea_lower for word in [
+            "health", "medical", "doctor", "hospital", "medicine"
+        ]):
             demand += 30
             investor += 30
             feasibility += 25
             scalability += 20
 
         # FinTech
-        if "finance" in idea_lower or "payment" in idea_lower:
-
+        if any(word in idea_lower for word in [
+            "finance", "payment", "banking", "fintech", "money"
+        ]):
             demand += 28
             investor += 35
             competition += 30
             scalability += 25
 
         # Agriculture
-        if "farm" in idea_lower or "agriculture" in idea_lower:
-
+        if any(word in idea_lower for word in [
+            "farm", "farming", "agriculture", "agritech"
+        ]):
             demand += 25
             feasibility += 30
             innovation += 20
 
         # Cybersecurity
-        if "cybersecurity" in idea_lower:
-
+        if any(word in idea_lower for word in [
+            "cybersecurity", "security", "cyber"
+        ]):
             demand += 30
             investor += 28
             competition += 22
 
         # Education
-        if "education" in idea_lower or "learning" in idea_lower:
-
+        if any(word in idea_lower for word in [
+            "education", "learning", "e learning",
+            "elearning", "school", "student", "course"
+        ]):
             scalability += 25
             demand += 20
             feasibility += 20
 
-        # Old businesses
-        if "dvd" in idea_lower or "pager" in idea_lower or "fax" in idea_lower:
+        # Food Delivery
+        if any(word in idea_lower for word in [
+            "food", "restaurant", "delivery", "kitchen"
+        ]):
+            demand += 25
+            scalability += 20
+            investor += 15
 
+        # Electric Vehicles
+        if any(word in idea_lower for word in [
+            "electric vehicle", "ev", "charging"
+        ]):
+            demand += 35
+            investor += 35
+            innovation += 30
+            scalability += 30
+
+        # Old businesses
+        if any(word in idea_lower for word in [
+            "dvd", "pager", "fax", "floppy",
+            "typewriter", "vcr", "cassette",
+            "telephone booth"
+        ]):
             demand -= 35
             investor -= 30
             scalability -= 25
             innovation -= 20
+
+        # Women Safety
+        if any(word in idea_lower for word in [
+            "women", "safety", "security app"
+        ]):
+            demand += 25
+            innovation += 20
+            investor += 15
+
+        # Renewable Energy
+        if any(word in idea_lower for word in [
+            "renewable", "solar", "wind", "energy"
+        ]):
+            demand += 35
+            investor += 35
+            innovation += 30
+            scalability += 25
+
+        # Fitness
+        if any(word in idea_lower for word in [
+            "fitness", "health tracking", "exercise"
+        ]):
+            demand += 25
+            scalability += 20
+            investor += 15
+
+        # Job Portal
+        if any(word in idea_lower for word in [
+            "job", "recruitment", "career"
+        ]):
+            demand += 30
+            scalability += 25
+            investor += 20
 
         # Limit values
         demand = max(10, min(demand, 100))
@@ -111,8 +171,17 @@ def predict(request):
         # Suggestions list
         suggestions = []
 
-        # Prediction result
-        if result[0] == 1:
+                # Prediction result based on score
+
+        if prob >= 75:
+
+            output = "🚀 Excellent Startup Idea"
+
+            suggestions.append(
+                "🚀 Startup idea has very high growth potential"
+            )
+
+        elif prob >= 55:
 
             output = "✅ Good Startup Idea"
 
@@ -122,31 +191,11 @@ def predict(request):
 
         else:
 
-            output = "❌ Needs Improvement"
+            output = "⚠️ Needs Improvement"
 
             suggestions.append(
                 "⚠ Startup idea may require more innovation"
             )
-
-        # Demand suggestions
-        if demand > 85:
-
-            suggestions.append(
-                "📈 Market demand is extremely strong"
-            )
-
-        elif demand > 70:
-
-            suggestions.append(
-                "✔ Market demand looks promising"
-            )
-
-        else:
-
-            suggestions.append(
-                "⚠ Market demand appears moderate"
-            )
-
         # Competition suggestions
         if competition > 70:
 
@@ -213,7 +262,7 @@ def predict(request):
         # Save in database
         StartupIdea.objects.create(
 
-            user=request.user,
+            user=request.user if request.user.is_authenticated else None,
 
             idea=idea,
             result=output,
@@ -225,7 +274,7 @@ def predict(request):
 
         )
 
-        return render(request, "index.html", {
+        return render(request, "result.html", {
 
             "result": output,
             "score": round(prob, 2),
@@ -253,9 +302,21 @@ def register_user(request):
         username = request.POST['username']
         password = request.POST['password']
 
+        if User.objects.filter(username=username).exists():
+
+            return render(
+                request,
+                "register.html",
+                {
+                    "error": "Username already exists"
+                }
+            )
+
         User.objects.create_user(
+
             username=username,
             password=password
+
         )
 
         return redirect('/login/')
@@ -309,12 +370,16 @@ def dashboard(request):
             idea.score for idea in ideas
         ) / total_ideas
 
+    excellent_ideas = ideas.filter(
+        result__contains="Excellent"
+    ).count()
+
     good_ideas = ideas.filter(
         result__contains="Good"
     ).count()
 
     bad_ideas = ideas.filter(
-        result__contains="Needs"
+        result__contains="Improvement"
     ).count()
 
     context = {
@@ -322,6 +387,7 @@ def dashboard(request):
         "total_ideas": total_ideas,
         "avg_score": round(avg_score, 2),
 
+        "excellent_ideas": excellent_ideas,
         "good_ideas": good_ideas,
         "bad_ideas": bad_ideas,
 

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,65 +11,914 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
     <style>
-
-        body{
-            background: linear-gradient(to right, #667eea, #764ba2);
-            min-height: 100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-family:Arial;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
         }
 
-        .main-box{
-            background:white;
-            padding:40px;
-            width:700px;
-            border-radius:20px;
-            box-shadow:0px 0px 20px rgba(0,0,0,0.3);
+        body {
+
+            background: #f4f7fc;
+            overflow-x: hidden;
+
         }
 
-        textarea{
-            resize:none;
-            height:150px;
+        /*==============================
+SIDEBAR
+===============================*/
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 270px;
+            height: 100vh;
+
+            background: linear-gradient(180deg,
+                    #5B4DFF 0%,
+                    #4B63FF 35%,
+                    #2F80ED 70%,
+                    #00C9A7 100%);
+
+            padding: 35px 25px;
+
+            box-shadow: 8px 0 35px rgba(0, 0, 0, .18);
+
+            z-index: 1000;
+
         }
 
+        .logo {
+
+            font-size: 38px;
+
+            font-weight: 800;
+
+            color: white;
+
+            margin-bottom: 60px;
+
+            letter-spacing: 1px;
+
+        }
+
+        .logo {
+
+            font-size: 38px;
+
+            font-weight: 800;
+
+            color: white;
+
+            padding-bottom: 25px;
+
+            margin-bottom: 35px;
+
+            border-bottom: 1px solid rgba(255, 255, 255, .25);
+
+        }
+
+        .sidebar {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .sidebar-menu {
+
+            margin-top: 20px;
+
+        }
+
+        .logout {
+
+            margin-top: auto;
+
+        }
+
+        .sidebar a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 16px 20px;
+
+            margin-bottom: 14px;
+
+            border-radius: 18px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 20px;
+
+            font-weight: 600;
+
+            transition: .3s;
+
+        }
+
+        .sidebar a i {
+
+            width: 28px;
+
+            text-align: center;
+
+            font-size: 22px;
+
+        }
+
+        .sidebar a:not(.active) {
+
+            background: rgba(255, 255, 255, .12);
+
+            border: 1px solid rgba(255, 255, 255, .15);
+
+        }
+
+        .sidebar a:hover {
+
+            background: white;
+
+            color: #5B4DFF;
+
+            transform: translateX(8px);
+
+            box-shadow: 0 15px 30px rgba(0, 0, 0, .15);
+
+        }
+
+        .sidebar a.active {
+
+            background: white;
+
+            color: #5B4DFF;
+
+            font-weight: 700;
+
+            box-shadow: 0 15px 30px rgba(0, 0, 0, .15);
+
+        }
+
+        /*==============================
+MAIN CONTENT
+===============================*/
+
+        .main-content {
+
+            margin-left: 270px;
+
+            padding: 45px;
+
+        }
+
+        /*==============================
+HERO
+===============================*/
+
+        .hero-card {
+
+            background: white;
+
+            border-radius: 28px;
+
+            padding: 38px 45px;
+
+            box-shadow: 0 18px 35px rgba(0, 0, 0, .06);
+
+        }
+
+        .hero-title {
+
+            font-size: 54px;
+
+            font-weight: 800;
+
+            line-height: 1.1;
+
+            margin-bottom: 18px;
+
+        }
+
+        .gradient {
+
+            background: linear-gradient(135deg, #6C63FF, #00C9A7);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+        }
+
+        .hero-sub {
+
+            font-size: 18px;
+
+            color: #64748b;
+
+            margin-bottom: 28px;
+
+            max-width: 850px;
+
+        }
+
+        /*==============================
+FORM
+===============================*/
+
+        .form-control,
+        .form-select {
+
+            height: 50px;
+
+            border-radius: 14px;
+
+            font-size: 16px;
+
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+
+            box-shadow: none;
+
+            border-color: #6C63FF;
+
+        }
+
+        textarea {
+
+            height: 150px !important;
+
+            resize: none;
+
+            padding: 20px !important;
+
+        }
+
+        /*==============================
+BUTTON
+===============================*/
+
+        .analyze-btn {
+
+            width: 100%;
+
+            height: 52px;
+
+            margin-top: 20px;
+
+            border: none;
+
+            border-radius: 18px;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: white;
+
+            background: linear-gradient(135deg, #6C63FF, #00C9A7);
+
+            transition: .3s;
+
+        }
+
+        .analyze-btn:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 15px 35px rgba(108, 99, 255, .35);
+
+        }
+
+        /*==============================
+STATS
+===============================*/
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-top: 20px;
+
+        }
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 22px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .05);
+
+        }
+
+        .stat-card:hover {
+
+            transform: translateY(-6px);
+
+        }
+
+        .stat-card h2 {
+
+            font-size: 48px;
+
+            font-weight: 700;
+
+            background: linear-gradient(135deg, #6C63FF, #00C9A7);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 10px;
+
+        }
+
+        .stat-card p {
+
+            font-size: 18px;
+
+            color: #64748b;
+
+            margin: 0;
+
+        }
+
+        /*==============================
+RESPONSIVE
+===============================*/
+
+        @media(max-width:992px) {
+
+            .sidebar {
+
+                width: 90px;
+
+                padding: 20px 10px;
+
+            }
+
+            .logo {
+
+                display: none;
+
+            }
+
+            .sidebar a span {
+
+                display: none;
+
+            }
+
+            .main-content {
+
+                margin-left: 90px;
+
+                padding: 25px;
+
+            }
+
+            .hero-title {
+
+                font-size: 42px;
+
+            }
+
+            .stats {
+
+                grid-template-columns: repeat(2, 1fr);
+
+            }
+
+        }
+
+        @media(max-width:768px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .hero-card {
+
+                padding: 35px;
+
+            }
+
+            .hero-title {
+
+                font-size: 34px;
+
+            }
+
+        }
+
+        /*==============================
+PLATFORM FEATURES
+===============================*/
+
+        .section-title {
+
+            font-size: 36px;
+
+            font-weight: 700;
+
+            margin-top: 40px;
+
+            margin-bottom: 25px;
+
+            color: #1e293b;
+
+            text-align: center;
+
+        }
+
+        .feature-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 35px;
+
+        }
+
+        .feature-card {
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            min-height: 230px;
+
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .05);
+
+            transition: .3s;
+
+            border-top: 4px solid transparent;
+
+        }
+
+        .feature-card:hover {
+
+            transform: translateY(-8px);
+
+            border-top: 5px solid #6C63FF;
+
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
+
+        }
+
+        .feature-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 16px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 26px;
+
+            background: linear-gradient(135deg, #6C63FF, #00C9A7);
+
+            color: white;
+
+            margin-bottom: 18px;
+
+        }
+
+        .feature-card h4 {
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+
+        }
+
+        .feature-card p {
+
+            color: #64748b;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+        }
+
+        /*==============================
+FOOTER
+===============================*/
+        .footer {
+
+            margin-top: 40px;
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 28px 20px;
+
+            text-align: center;
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .05);
+
+        }
+
+        .footer-logo {
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            background: linear-gradient(135deg, #6C63FF, #00C9A7);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 10px;
+
+        }
+
+        .footer p {
+
+            color: #64748b;
+
+            font-size: 15px;
+
+            margin: 6px 0;
+
+        }
+
+        .footer hr {
+
+            width: 120px;
+
+            margin: 15px auto;
+
+            border: 1px solid #e5e7eb;
+
+        }
     </style>
 
 </head>
 
 <body>
 
-<div class="main-box">
+    <!-- LEFT SIDEBAR -->
 
-    <h1 class="text-center mb-3">
-        🚀 InnovScope
-    </h1>
+    <div class="sidebar">
 
-    <p class="text-center text-muted mb-4">
-        Smart Startup Idea Validation System
-    </p>
+        <div class="logo">
 
-    <form method="POST" action="/predict/">
+            InnovScope
 
-        {% csrf_token %}
+        </div>
 
-        <textarea
-            name="idea"
-            class="form-control"
-            placeholder="Enter your startup idea..."
-            required></textarea>
+        <div class="sidebar-menu">
 
-        <button class="btn btn-primary w-100 mt-3">
+            <a href="/" class="active">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-            Analyze Idea
+            <a href="/dashboard/" class="active" target="_blank">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Dashboard</span>
+            </a>
 
-        </button>
+            <a href="/history/" class="active" target="_blank">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>History</span>
+            </a>
 
-    </form>
+        </div>
 
-</div>
+        <a href="/logout/" class="active">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <div class="hero-card">
+
+            <h1 class="hero-title">
+
+                Validate
+                <span class="gradient">Startup Ideas</span>
+                Before You Build Them
+
+            </h1>
+
+            <p class="hero-sub">
+
+                AI-powered startup validation platform that evaluates market demand,
+                competition, innovation, scalability and investor potential.
+
+            </p>
+
+            <form method="POST" action="/predict/" target="_blank">
+
+                {% csrf_token %}
+
+                <div class="row g-3">
+
+                    <div class="col-lg-4">
+
+                        <input type="text" name="startup_name" class="form-control" placeholder="Startup Name" required>
+
+                    </div>
+
+                    <div class="col-lg-2">
+
+                        <select name="domain_extension" class="form-select" required>
+
+                            <option value="">Domain</option>
+
+                            <option>.com</option>
+                            <option>.in</option>
+                            <option>.org</option>
+                            <option>.net</option>
+                            <option>.ai</option>
+                            <option>.io</option>
+                            <option>.tech</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <select name="industry" class="form-select" required>
+
+                            <option>Select Industry</option>
+
+                            <option>Healthcare</option>
+                            <option>Artificial Intelligence</option>
+                            <option>FinTech</option>
+                            <option>Agriculture</option>
+                            <option>Cybersecurity</option>
+                            <option>Education</option>
+                            <option>Legal services</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <input type="text" name="target_customers" class="form-control" placeholder="Target Customers">
+
+                    </div>
+
+                    <div class="col-lg-3">
+
+                        <input type="text" name="budget" class="form-control" placeholder="Budget (Example: 5 Lakhs)"
+                            required>
+
+                    </div>
+
+                    <div class="col-lg-3">
+
+                        <input type="number" name="team_size" class="form-control" placeholder="Team Size" required>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <textarea name="idea" class="form-control" placeholder="Describe your startup idea..." required>
+
+</textarea>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <button class="analyze-btn">
+
+                            Analyze Startup Idea
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+ 
+        <!-- =========================
+     PLATFORM FEATURES
+========================== -->
+
+        <h2 class="section-title">
+
+            Platform Features
+
+        </h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📈
+                </div>
+
+                <h4>
+
+                    Market Demand
+
+                </h4>
+
+                <p>
+
+                    Evaluate customer interest and market potential using trend analysis and market indicators.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ⚔️
+                </div>
+
+                <h4>
+
+                    Competition Analysis
+
+                </h4>
+
+                <p>
+
+                    Measure competition intensity and identify opportunities in the selected market.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🚀
+                </div>
+
+                <h4>
+
+                    Scalability Score
+
+                </h4>
+
+                <p>
+
+                    Estimate future growth potential and business expansion capability.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    💡
+                </div>
+
+                <h4>
+
+                    Innovation Rating
+
+                </h4>
+
+                <p>
+
+                    Analyse the uniqueness and originality of your startup idea.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    💰
+                </div>
+
+                <h4>
+
+                    Investor Potential
+
+                </h4>
+
+                <p>
+
+                    Predict investor attraction capability based on startup characteristics.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h4>
+
+                    Trend Intelligence
+
+                </h4>
+
+                <p>
+
+                    Monitor current market trends and analyse public interest in your startup.
+
+                </p>
+
+            </div>
+
+        </div>
+        <!-- =========================
+     FOOTER
+========================== -->
+
+        <footer class="footer">
+
+            <div class="footer-content">
+
+                <h2 class="footer-logo">
+
+                    InnovScope
+
+                </h2>
+
+                <p>
+
+                    AI Powered Startup Validation Platform
+
+                </p>
+
+                <hr>
+
+                <p>
+
+                    © 2026 InnovScope. All Rights Reserved.
+
+                </p>
+
+            </div>
+
+        </footer>
+
+    </div>
+    <!-- End Main Content -->
 
 </body>
+
 </html>

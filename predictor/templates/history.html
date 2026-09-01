@@ -1,69 +1,354 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>History</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>InnovScope History</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f8fafc;
+    font-family:'Segoe UI',sans-serif;
+    color:#1e293b;
+}
+
+/* Navbar */
+
+.navbar-custom{
+    background:white;
+    box-shadow:0 2px 15px rgba(0,0,0,.05);
+    padding:18px 0;
+}
+
+.navbar-brand{
+    color:#6C63FF !important;
+    font-size:30px;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#475569;
+    margin-left:25px;
+    font-weight:500;
+}
+
+.nav-links a:hover{
+    color:#6C63FF;
+}
+
+/* Header */
+
+.page-header{
+
+    text-align:center;
+
+    padding:50px 0 30px;
+}
+
+.page-header h1{
+
+    font-size:48px;
+
+    font-weight:700;
+}
+
+.page-header p{
+
+    color:#64748b;
+
+    font-size:18px;
+}
+
+/* Table Card */
+
+.history-card{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+    margin-bottom:50px;
+}
+
+/* Table */
+
+.table{
+
+    vertical-align:middle;
+}
+
+.table thead{
+
+    background:linear-gradient(
+    135deg,
+    #6C63FF,
+    #00C9A7
+    );
+
+    color:white;
+}
+
+.table thead th{
+
+    border:none;
+
+    padding:18px;
+}
+
+.table tbody td{
+
+    padding:18px;
+
+    border-color:#e2e8f0;
+}
+
+.table tbody tr:hover{
+
+    background:#f8fafc;
+}
+
+/* Score Badge */
+
+.score-badge{
+
+    background:#6C63FF;
+
+    color:white;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    font-weight:600;
+}
+
+/* Result Badge */
+
+.success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+}
+
+.improve{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+}
+
+/* Empty State */
+
+.empty-box{
+
+    text-align:center;
+
+    padding:50px;
+}
+
+.empty-box h4{
+
+    color:#64748b;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .page-header h1{
+        font-size:34px;
+    }
+
+    .history-card{
+        overflow-x:auto;
+    }
+}
+
+</style>
 
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<nav class="navbar-custom">
 
-    <h1 class="text-center mb-5">
+<div class="container d-flex justify-content-between align-items-center">
 
-        📂 My Startup History
+<a class="navbar-brand" href="/">
 
-    </h1>
+InnovScope
 
-    <div class="card shadow p-4">
+</a>
 
-        <table class="table table-bordered table-hover">
+<div class="nav-links">
 
-            <thead class="table-dark">
+<a href="/">Home</a>
 
-                <tr>
+<a href="/dashboard/">Dashboard</a>
 
-                    <th>Idea</th>
+</div>
 
-                    <th>Score</th>
+</div>
 
-                    <th>Result</th>
+</nav>
 
-                    <th>Date</th>
+<div class="container">
 
-                </tr>
+<div class="page-header">
 
-            </thead>
+<h1>
 
-            <tbody>
+Startup History
 
-                {% for idea in ideas %}
+</h1>
 
-                <tr>
+<p>
 
-                    <td>{{ idea.idea }}</td>
+View and track all previously analyzed startup ideas
 
-                    <td>{{ idea.score }}%</td>
+</p>
 
-                    <td>{{ idea.result }}</td>
+</div>
 
-                    <td>{{ idea.created_at }}</td>
+<div class="history-card">
 
-                </tr>
+<table class="table">
 
-                {% endfor %}
+<thead>
 
-            </tbody>
+<tr>
 
-        </table>
+<th>Startup Idea</th>
 
-    </div>
+<th>Score</th>
+
+<th>Status</th>
+
+<th>Date & Time</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for idea in ideas %}
+
+<tr>
+
+<td>
+
+{{ idea.idea }}
+
+</td>
+
+<td>
+
+<span class="score-badge">
+
+{{ idea.score }}%
+
+</span>
+
+</td>
+
+<td>
+
+{% if idea.score >= 70 %}
+
+<span class="success">
+
+Strong Potential
+
+</span>
+
+{% else %}
+
+<span class="improve">
+
+Needs Improvement
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{{ idea.created_at }}
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="4">
+
+<div class="empty-box">
+
+<h4>
+
+No startup ideas analyzed yet
+
+</h4>
+
+</div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
 
 </div>
 
 </body>
+
 </html>
